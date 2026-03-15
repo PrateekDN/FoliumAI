@@ -57,10 +57,17 @@ const FarmerFlow = () => {
     data.append("file", imageFile);
 
     try {
-      const res = await fetch("http://192.168.29.16:8000/api/predict", {
+      const API_URL = import.meta.env.VITE_API_URL;
+      
+      // FIX: Ensure protocol is present and append the correct /api/predict endpoint
+      const baseUrl = API_URL.startsWith('http') ? API_URL : `https://${API_URL}`;
+      const endpoint = `${baseUrl.replace(/\/$/, '')}/api/predict`;
+
+      const res = await fetch(endpoint, {
         method: "POST",
         body: data
       });
+      
       const json = await res.json();
       setResult(json);
 
