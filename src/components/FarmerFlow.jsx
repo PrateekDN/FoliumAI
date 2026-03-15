@@ -59,7 +59,7 @@ const FarmerFlow = () => {
     try {
       // 1. Fallback added to prevent crashes if Vercel env vars are missing
       // 2. .trim() added to strip any accidental hidden spaces from environment variables
-      const rawUrl = import.meta.env.VITE_API_URL || "teasphere-backend-production.up.railway.app";
+      const rawUrl = import.meta.env.VITE_API_URL || "https://teasphere-backend-production.up.railway.app";
       const API_URL = rawUrl.trim();
       
       const baseUrl = API_URL.startsWith('http') ? API_URL : `https://${API_URL}`;
