@@ -58,7 +58,9 @@ const FarmerFlow = () => {
 
     try {
       // 1. Fallback added to prevent crashes if Vercel env vars are missing
-      const API_URL = import.meta.env.VITE_API_URL || "teasphere-backend-production.up.railway.app";
+      // 2. .trim() added to strip any accidental hidden spaces from environment variables
+      const rawUrl = import.meta.env.VITE_API_URL || "teasphere-backend-production.up.railway.app";
+      const API_URL = rawUrl.trim();
       
       const baseUrl = API_URL.startsWith('http') ? API_URL : `https://${API_URL}`;
       const endpoint = `${baseUrl.replace(/\/$/, '')}/api/predict`;
@@ -74,7 +76,7 @@ const FarmerFlow = () => {
         }
       });
       
-      // 2. Catch actual HTTP errors (like 404, 500) before parsing JSON
+      // Catch actual HTTP errors (like 404, 500) before parsing JSON
       if (!res.ok) {
         throw new Error(`Backend returned status ${res.status}: ${res.statusText}`);
       }
@@ -96,7 +98,7 @@ const FarmerFlow = () => {
       }
 
     } catch (err) {
-      // 3. More detailed error logging to help you debug CORS/Network issues
+      // More detailed error logging to help you debug CORS/Network issues
       console.error("Fetch Analysis Error:", err);
       alert("Failed to fetch data. Please check connection. (See console for details)");
     } finally {
